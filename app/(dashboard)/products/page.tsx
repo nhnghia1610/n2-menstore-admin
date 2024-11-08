@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/custom ui/DataTable";
 import { columns } from "@/components/products/ProductColumns";
+import toast from "react-hot-toast";
 
 const Products = () => {
   const router = useRouter();
@@ -31,7 +32,14 @@ const Products = () => {
   };
 
   useEffect(() => {
-    getProducts();
+    getProducts();  
+
+    if (localStorage.getItem("showSuccessToast") === "true") {
+      toast.success("Product created/updated successfully!");
+      
+      localStorage.removeItem("showSuccessToast");
+    }
+
   }, []);
 
   return loading ? (
