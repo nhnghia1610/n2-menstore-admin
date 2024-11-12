@@ -5,15 +5,18 @@ import { connectToDB } from "@/lib/mongoDB";
 import Product from "@/lib/models/Product";
 import Collection from "@/lib/models/Collection";
 
+
 export const POST = async (req: NextRequest) => {
   try {
+    
     const { userId } = auth();
-
+    
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     await connectToDB();
+
 
     const {
       title,
@@ -70,16 +73,22 @@ export const GET = async (req: NextRequest) => {
   try {
     await connectToDB();
 
-    const products = await Product.find()
-      .sort({ createdAt: "desc" })
-      .populate({ path: "collections", model: Collection });
+    const limit = parseInt(req.nextUrl.searchParams.get("limit") || "0", 10);
+
+    const query = Product.find().sort({ createdAt: "desc" }).populate({
+      path: "collections",
+      model: Collection,
+    });
+
+    const products = limit > 0 ? await query.limit(limit) : await query;
 
     return NextResponse.json(products, { status: 200 });
   } catch (err) {
-    console.log("[products_GET]", err);
+    console.error("[products_GET]", err);
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
+
 
 export const dynamic = "force-dynamic";
 

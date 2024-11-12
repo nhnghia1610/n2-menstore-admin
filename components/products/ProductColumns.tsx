@@ -7,7 +7,7 @@ import Link from "next/link";
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Tên sản phẩm",
     cell: ({ row }) => (
       <Link
         href={`/products/${row.original._id}`}
@@ -19,20 +19,20 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "category",
-    header: "Category",
+    header: "Danh mục",
   },
   {
     accessorKey: "collections",
-    header: "Collections",
+    header: "Bộ sưu tập",
     cell: ({ row }) => row.original.collections.map((collection) => collection.title).join(", "),
   },
   {
     accessorKey: "price",
-    header: "Price ($)",
+    header: "Giá (VND)",
   },
   {
     accessorKey: "expense",
-    header: "Expense ($)",
+    header: "Giá vốn (VND)",
   },
   {
     id: "actions",

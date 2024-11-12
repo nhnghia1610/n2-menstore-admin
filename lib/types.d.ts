@@ -22,6 +22,19 @@ type ProductType = {
   updatedAt: Date;
 }
 
+type EmployeeType = {
+  _id: string;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  dob: string;
+  joinDate: string;
+  salary: number; 
+}
+
+
 type OrderColumnType = {
   _id: string;
   customer: string;

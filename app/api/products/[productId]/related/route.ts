@@ -17,7 +17,7 @@ export const GET = async (req: NextRequest, { params }: { params: { productId: s
         { category: product.category },
         { collections: { $in: product.collections }}
       ],
-      _id: { $ne: product._id } // Exclude the current product
+      _id: { $ne: product._id }
     })
 
     if (!relatedProducts) {

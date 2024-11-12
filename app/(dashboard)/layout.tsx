@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import LeftSideBar from "@/components/layout/LeftSideBar";
 import TopBar from "@/components/layout/TopBar";
 import { ToasterProvider } from "@/lib/ToasterProvider";
+import { viVN } from '@clerk/localizations'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={viVN}>
       <html lang="en">
         <body className={inter.className}>
           <ToasterProvider />

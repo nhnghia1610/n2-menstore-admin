@@ -9,37 +9,30 @@ import Loader from "@/components/custom ui/Loader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/custom ui/DataTable";
-import { columns } from "@/components/products/ProductColumns";
+import { columns } from "@/components/employees/EmployeeColumns";
 import toast from "react-hot-toast";
 
-const Products = () => {
+const Employees = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<ProductType[]>([]);
+  const [employees, setEmployees] = useState<EmployeeType[]>([]);
 
   const getProducts = async () => {
     try {
-      const res = await fetch("/api/products", {
+      const res = await fetch("/api/employees", {
         method: "GET",
       });
       const data = await res.json();
-      setProducts(data);
+      setEmployees(data);
       setLoading(false);
     } catch (err) {
-      console.log("[products_GET]", err);
+      console.log("[pemployees_GET]", err);
     }
   };
 
   useEffect(() => {
     getProducts();  
-
-    if (localStorage.getItem("showSuccessToast") === "true") {
-      toast.success("Product created/updated successfully!");
-      
-      localStorage.removeItem("showSuccessToast");
-    }
-
   }, []);
 
   return loading ? (
@@ -47,19 +40,19 @@ const Products = () => {
   ) : (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
-        <p className="text-heading2-bold">Quản lý sản phẩm</p>
+        <p className="text-heading2-bold">Quản lý nhân viên</p>
         <Button
           className="bg-[#FDAB04] text-black"
-          onClick={() => router.push("/products/new")}
+          onClick={() => router.push("/employees/new")}
         >
           <Plus className="h-4 w-4 mr-2" />
-          Thêm sản phẩm
+          Thêm nhân viên mới
         </Button>
       </div>
       <Separator className="bg-grey-1 my-4" />
-      <DataTable columns={columns} data={products} searchKey="title" />
+      <DataTable columns={columns} data={employees} searchKey="email" />
     </div>
   );
 };
 
-export default Products;
+export default Employees;

@@ -142,10 +142,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Tên sản phẩm</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Title"
+                    placeholder="Tên sản phẩm"
                     {...field}
                     onKeyDown={handleKeyPress}
                   />
@@ -159,10 +159,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Mô tả</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Description"
+                    placeholder="Mô tả chi tiết sản phẩm"
                     {...field}
                     rows={5}
                     onKeyDown={handleKeyPress}
@@ -177,7 +177,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             name="media"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Hình ảnh sản phẩm</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value}
@@ -200,7 +200,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price ($)</FormLabel>
+                  <FormLabel>Giá (VND)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -218,7 +218,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="expense"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expense ($)</FormLabel>
+                  <FormLabel>Giá vốn (VND)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -236,7 +236,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Danh mục</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Category"
@@ -253,7 +253,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel>Từ khóa</FormLabel>
                   <FormControl>
                     <MultiText
                       placeholder="Tags"
@@ -276,7 +276,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 name="collections"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Collections</FormLabel>
+                    <FormLabel>Bộ sưu tập</FormLabel>
                     <FormControl>
                       <MultiSelect
                         placeholder="Collections"
@@ -304,7 +304,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="colors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Colors</FormLabel>
+                  <FormLabel>Màu sắc</FormLabel>
                   <FormControl>
                     <MultiText
                       placeholder="Colors"
@@ -330,7 +330,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="sizes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sizes</FormLabel>
+                  <FormLabel>Kích cỡ</FormLabel>
                   <FormControl>
                     <MultiText
                       placeholder="Sizes"
@@ -354,15 +354,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           </div>
 
           <div className="flex gap-10">
-            <Button type="submit" className="bg-blue-1 text-white">
-              Submit
+            <Button type="submit" className="bg-[#FDAB04] text-black">
+              Lưu
             </Button>
             <Button
               type="button"
               onClick={() => router.push("/products")}
-              className="bg-blue-1 text-white"
+              className="bg-[#1F2937] text-white"
             >
-              Discard
+              Hủy
             </Button>
           </div>
         </form>

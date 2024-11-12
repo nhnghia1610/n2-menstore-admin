@@ -28,7 +28,11 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
   const onDelete = async () => {
     try {
       setLoading(true)
-      const itemType = item === "product" ? "products" : "collections"
+      const itemType = item === "product"
+        ? "products"
+        : item === "collection"
+          ? "collections"
+          : "employees";
       const res = await fetch(`/api/${itemType}/${id}`, {
         method: "DELETE",
       })
@@ -52,9 +56,9 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-white text-grey-1">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-red-1">Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle className="text-red-1">Bạn có chắc muốn xóa dữ liệu này không?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your {item}.
+            Dữ liệu sẽ không thể phục hồi nếu xóa.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
