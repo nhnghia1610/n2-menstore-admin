@@ -10,19 +10,19 @@ const OrderDetails = async ({ params }: { params: { orderId: string }}) => {
   return (
     <div className="flex flex-col p-10 gap-5">
       <p className="text-base-bold">
-        Order ID: <span className="text-base-medium">{orderDetails._id}</span>
+        Mã đơn hàng: <span className="text-base-medium">{orderDetails._id}</span>
       </p>
       <p className="text-base-bold">
-        Customer name: <span className="text-base-medium">{customer.name}</span>
+        Tên khách hàng: <span className="text-base-medium">{customer.name}</span>
       </p>
       <p className="text-base-bold">
-        Shipping address: <span className="text-base-medium">{street}, {city}, {state}, {postalCode}, {country}</span>
+        Địa chỉ giao hàng: <span className="text-base-medium">{street}, {city}, {state}, {postalCode}, {country}</span>
       </p>
       <p className="text-base-bold">
-        Total Paid: <span className="text-base-medium">${orderDetails.totalAmount}</span>
+        Tổng tiền: <span className="text-base-medium">{orderDetails.totalAmount}</span>
       </p>
       <p className="text-base-bold">
-        Shipping rate ID: <span className="text-base-medium">{orderDetails.shippingRate}</span>
+        Mã phí vận chuyển: <span className="text-base-medium">{orderDetails.shippingRate}</span>
       </p>
       <DataTable columns={columns} data={orderDetails.products} searchKey="product"/>
     </div>

@@ -9,10 +9,10 @@ export const columns: ColumnDef<CustomerType>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Tên khách hàng",
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: "Địa chỉ Email",
   },
 ];

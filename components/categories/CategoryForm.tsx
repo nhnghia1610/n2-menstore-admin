@@ -22,8 +22,8 @@ import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(20),
-  description: z.string().min(2).max(500).trim(),
+  title: z.string().min(2, { message: "Tên danh mục không được để trống" }).max(20),
+  description: z.string().min(2, { message: "Mô tả không được để trống" }).max(500).trim(),
 });
 
 interface CategoryFormProps {
@@ -95,7 +95,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                 <FormControl>
                   <Input placeholder="Tên danh mục" {...field} onKeyDown={handleKeyPress} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
@@ -108,7 +108,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                 <FormControl>
                   <Textarea placeholder="Mô tả danh mục" {...field} rows={5} onKeyDown={handleKeyPress} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />

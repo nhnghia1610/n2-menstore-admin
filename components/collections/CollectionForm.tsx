@@ -23,8 +23,8 @@ import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(20),
-  description: z.string().min(2).max(500).trim(),
+  title: z.string().min(2, { message: "Tên bộ sưu tập không được để trống" }).max(20),
+  description: z.string().min(2, { message: "Mô tả không được để trống" }).max(500).trim(),
   image: z.string(),
 });
 
@@ -98,7 +98,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                 <FormControl>
                   <Input placeholder="Tên bộ sưu tập" {...field} onKeyDown={handleKeyPress} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
@@ -111,7 +111,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                 <FormControl>
                   <Textarea placeholder="Mô tả bộ sưu tập" {...field} rows={5} onKeyDown={handleKeyPress} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
@@ -128,7 +128,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                     onRemove={() => field.onChange("")}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-1" />
               </FormItem>
             )}
           />
