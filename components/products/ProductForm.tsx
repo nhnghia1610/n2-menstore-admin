@@ -24,12 +24,13 @@ import Delete from "../custom ui/Delete";
 import MultiText from "../custom ui/MultiText";
 import MultiSelect from "../custom ui/MultiSelect";
 import Loader from "../custom ui/Loader";
+import { ComboBox } from "../custom ui/ComboBox";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(20),
+  title: z.string().min(2).max(40),
   description: z.string().min(2).max(500).trim(),
   media: z.array(z.string()),
-  category: z.string(),
+  categoryId: z.string(),
   collections: z.array(z.string()),
   tags: z.array(z.string()),
   sizes: z.array(z.string()),
@@ -39,7 +40,7 @@ const formSchema = z.object({
 });
 
 interface ProductFormProps {
-  initialData?: ProductType | null; //Must have "?" to make it optional
+  initialData?: ProductType | null;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
@@ -47,6 +48,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState<CollectionType[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const getCollections = async () => {
     try {
@@ -62,8 +64,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const res = await fetch("/api/categories", {
+        method: "GET",
+      });
+      const data = await res.json();
+      setCategories(data);
+      setLoading(false);
+    } catch (err) {
+      console.log("[categories_GET]", err);
+      toast.error("Something went wrong! Please try again.");
+    }
+  };
+
+
   useEffect(() => {
     getCollections();
+    getCategories();
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +97,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
           title: "",
           description: "",
           media: [],
-          category: "",
+          categoryId: "",
           collections: [],
           tags: [],
           sizes: [],
@@ -233,15 +251,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name="category"
+              name="colors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Danh mục</FormLabel>
+                  <FormLabel>Màu sắc</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Danh mục"
-                      {...field}
-                      onKeyDown={handleKeyPress}
+                    <MultiText
+                      placeholder="Màu sắc"
+                      value={field.value}
+                      onChange={(color) =>
+                        field.onChange([...field.value, color])
+                      }
+                      onRemove={(colorToRemove) =>
+                        field.onChange([
+                          ...field.value.filter(
+                            (color) => color !== colorToRemove
+                          ),
+                        ])
+                      }
                     />
                   </FormControl>
                   <FormMessage className="text-red-1" />
@@ -299,32 +326,28 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 )}
               />
             )}
-            <FormField
-              control={form.control}
-              name="colors"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Màu sắc</FormLabel>
-                  <FormControl>
-                    <MultiText
-                      placeholder="Màu sắc"
-                      value={field.value}
-                      onChange={(color) =>
-                        field.onChange([...field.value, color])
-                      }
-                      onRemove={(colorToRemove) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (color) => color !== colorToRemove
-                          ),
-                        ])
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-1" />
-                </FormItem>
-              )}
-            />
+            
+            {categories.length > 0 && (
+              <FormField
+                control={form.control}
+                name="categoryId"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Danh mục</FormLabel>
+                    <FormControl>
+                      <ComboBox
+                        options={categories.map((category) => ({
+                          label: category.title,
+                          value: category._id,
+                        }))}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-1" />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="sizes"

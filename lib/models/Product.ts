@@ -5,8 +5,11 @@ const ProductSchema = new mongoose.Schema({
   description: String,
   media: [String],
   categoryId: String,
+  category: {
+    title: String,
+    description: String,
+  },
   collections: [{ type: mongoose.Schema.Types.ObjectId, ref: "Collection" }],
-  categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   tags: [String],
   sizes: [String],
   colors: [String],

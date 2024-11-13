@@ -1,3 +1,4 @@
+import Category from "@/lib/models/Category";
 import Collection from "@/lib/models/Collection";
 import Product from "@/lib/models/Product";
 import { connectToDB } from "@/lib/mongoDB";
@@ -63,7 +64,7 @@ export const POST = async (
       title,
       description,
       media,
-      category,
+      categoryId,
       collections,
       tags,
       sizes,
@@ -72,7 +73,7 @@ export const POST = async (
       expense,
     } = await req.json();
 
-    if (!title || !description || !media || !category || !price || !expense) {
+    if (!title || !description || !media || !categoryId || !price || !expense) {
       return new NextResponse("Not enough data to create a new product", {
         status: 400,
       });
@@ -100,13 +101,22 @@ export const POST = async (
       ),
     ]);
 
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return new NextResponse("Category not found", { status: 404 });
+    }
+
     const updatedProduct = await Product.findByIdAndUpdate(
       product._id,
       {
         title,
         description,
         media,
-        category,
+        categoryId,
+        category: {
+          title: category.title,
+          description: category.description,
+        },
         collections,
         tags,
         sizes,

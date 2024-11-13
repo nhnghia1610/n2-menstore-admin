@@ -4,25 +4,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/mongoDB";
 import Product from "@/lib/models/Product";
 import Collection from "@/lib/models/Collection";
+import Category from "@/lib/models/Category";
 
 
 export const POST = async (req: NextRequest) => {
   try {
-    
     const { userId } = auth();
-    
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     await connectToDB();
 
-
     const {
       title,
       description,
       media,
-      category,
+      categoryId,
       collections,
       tags,
       sizes,
@@ -31,17 +29,24 @@ export const POST = async (req: NextRequest) => {
       expense,
     } = await req.json();
 
-    if (!title || !description || !media || !category || !price || !expense) {
-      return new NextResponse("Not enough data to create a product", {
-        status: 400,
-      });
+    if (!title || !description || !media || !categoryId || !price || !expense) {
+      return new NextResponse("Not enough data to create a product", { status: 400 });
+    }
+
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return new NextResponse("Category not found", { status: 404 });
     }
 
     const newProduct = await Product.create({
       title,
       description,
       media,
-      category,
+      categoryId,
+      category: {
+        title: category.title,
+        description: category.description,
+      },
       collections,
       tags,
       sizes,
