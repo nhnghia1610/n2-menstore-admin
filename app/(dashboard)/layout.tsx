@@ -11,8 +11,8 @@ import { viVN } from '@clerk/localizations'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Borcelle - Admin Dashboard",
-  description: "Admin dashboard to manage Borcelle's data",
+  title: "M2 Men Store - Admin Dashboard",
+  description: "Admin dashboard to manage N2 Men store's data",
 };
 
 export default function RootLayout({
