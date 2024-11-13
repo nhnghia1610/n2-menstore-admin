@@ -14,22 +14,18 @@ export const GET = async (
   try {
     await connectToDB();
 
-    // Find employee by ID
     const employee = await Employee.findById(params.employeeId);
 
     if (!employee) {
       return new NextResponse(JSON.stringify({ message: "Employee not found" }), { status: 404 });
     }
 
-    // Convert salary from Decimal128 to a regular number
     const salary = employee.salary instanceof mongoose.Schema.Types.Decimal128
       ? parseFloat(employee.salary.toString()) // Convert Decimal128 to number
       : employee.salary;
 
-    // Fetch the Clerk user details using the clerkId from the employee document
     const clerkUser = await clerkClient.users.getUser(employee.clerkId);
 
-    // Construct the response with both employee and Clerk username details
     const employeeWithUserName = {
       ...employee.toObject(),
       salary,
@@ -88,7 +84,6 @@ export const POST = async (
       });
     }
 
-    // included in previous data, but not included in the new data
 
     // Update product
     const updatedEmployee = await Employee.findByIdAndUpdate(

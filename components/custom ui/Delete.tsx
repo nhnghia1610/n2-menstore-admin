@@ -32,7 +32,9 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
         ? "products"
         : item === "collection"
           ? "collections"
-          : "employees";
+          : item === "category"
+            ? "categories"
+            : "employees";
       const res = await fetch(`/api/${itemType}/${id}`, {
         method: "DELETE",
       })
@@ -62,8 +64,8 @@ const Delete: React.FC<DeleteProps> = ({ item, id }) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-1 text-white" onClick={onDelete}>Delete</AlertDialogAction>
+          <AlertDialogCancel>Hủy</AlertDialogCancel>
+          <AlertDialogAction className="bg-red-1 text-white" onClick={onDelete}>Xóa</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

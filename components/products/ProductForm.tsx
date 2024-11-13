@@ -128,11 +128,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     <div className="p-10">
       {initialData ? (
         <div className="flex items-center justify-between">
-          <p className="text-heading2-bold">Edit Product</p>
+          <p className="text-heading2-bold">Sửa sản phẩm</p>
           <Delete id={initialData._id} item="product" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create Product</p>
+        <p className="text-heading2-bold">Thêm sản phẩm</p>
       )}
       <Separator className="bg-grey-1 mt-4 mb-7" />
       <Form {...form}>
@@ -222,7 +222,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Expense"
+                      placeholder="Giá vốn"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -239,7 +239,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Danh mục</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Category"
+                      placeholder="Danh mục"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -279,7 +279,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <FormLabel>Bộ sưu tập</FormLabel>
                     <FormControl>
                       <MultiSelect
-                        placeholder="Collections"
+                        placeholder="Chọn bộ sưu tập"
                         collections={collections}
                         value={field.value}
                         onChange={(_id) =>
@@ -307,7 +307,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Màu sắc</FormLabel>
                   <FormControl>
                     <MultiText
-                      placeholder="Colors"
+                      placeholder="Màu sắc"
                       value={field.value}
                       onChange={(color) =>
                         field.onChange([...field.value, color])
@@ -333,7 +333,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <FormLabel>Kích cỡ</FormLabel>
                   <FormControl>
                     <MultiText
-                      placeholder="Sizes"
+                      placeholder="Kích cỡ"
                       value={field.value}
                       onChange={(size) =>
                         field.onChange([...field.value, size])

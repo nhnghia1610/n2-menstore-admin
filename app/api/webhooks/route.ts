@@ -55,7 +55,7 @@ export const POST = async (req: NextRequest) => {
         products: orderItems,
         shippingAddress,
         shippingRate: session?.shipping_cost?.shipping_rate,
-        totalAmount: session.amount_total ? session.amount_total / 100 : 0,
+        totalAmount: session.amount_total ? session.amount_total : 0,
       })
 
       await newOrder.save()

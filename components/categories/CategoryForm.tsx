@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import ImageUpload from "../custom ui/ImageUpload";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
@@ -25,14 +24,13 @@ import Delete from "../custom ui/Delete";
 const formSchema = z.object({
   title: z.string().min(2).max(20),
   description: z.string().min(2).max(500).trim(),
-  image: z.string(),
 });
 
-interface CollectionFormProps {
-  initialData?: CollectionType | null;
+interface CategoryFormProps {
+  initialData?: CategoryType | null;
 }
 
-const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
+const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -44,7 +42,6 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
       : {
           title: "",
           description: "",
-          image: "",
         },
   });
 
@@ -58,20 +55,20 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       const url = initialData
-        ? `/api/collections/${initialData._id}`
-        : "/api/collections";
+        ? `/api/categories/${initialData._id}`
+        : "/api/categories";
       const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(values),
       });
       if (res.ok) {
         setLoading(false);
-        toast.success(`Collection ${initialData ? "updated" : "created"}`);
-        window.location.href = "/collections";
-        router.push("/collections");
+        toast.success(`${initialData ? "Sửa" : "Tạo"} danh mục thành công`);
+        window.location.href = "/categories";
+        router.push("/categories");
       }
     } catch (err) {
-      console.log("[collections_POST]", err);
+      console.log("[categories_POST]", err);
       toast.error("Something went wrong! Please try again.");
     }
   };
@@ -80,11 +77,11 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
     <div className="p-10">
       {initialData ? (
         <div className="flex items-center justify-between">
-          <p className="text-heading2-bold">Sửa bộ sưu tập</p>
-          <Delete id={initialData._id} item="collection" />
+          <p className="text-heading2-bold">Sửa danh mục</p>
+          <Delete id={initialData._id} item="category" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Thêm bộ sưu tập</p>
+        <p className="text-heading2-bold">Thêm danh mục</p>
       )}
       <Separator className="bg-grey-1 mt-4 mb-7" />
       <Form {...form}>
@@ -94,9 +91,9 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tên bộ sưu tập</FormLabel>
+                <FormLabel>Tên danh mục</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tên bộ sưu tập" {...field} onKeyDown={handleKeyPress} />
+                  <Input placeholder="Tên danh mục" {...field} onKeyDown={handleKeyPress} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,36 +106,20 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Mô tả</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Mô tả bộ sưu tập" {...field} rows={5} onKeyDown={handleKeyPress} />
+                  <Textarea placeholder="Mô tả danh mục" {...field} rows={5} onKeyDown={handleKeyPress} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Hình banner</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          
           <div className="flex gap-10">
             <Button type="submit" className="bg-[#FDAB04] text-black">
               Lưu
             </Button>
             <Button
               type="button"
-              onClick={() => router.push("/collections")}
+              onClick={() => router.push("/categories")}
               className="bg-[#1F2937] text-white"
             >
               Hủy
@@ -150,4 +131,4 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
   );
 };
 
-export default CollectionForm;
+export default CategoryForm;

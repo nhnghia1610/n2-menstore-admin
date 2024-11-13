@@ -5,6 +5,7 @@ import {
   Box,
   ShoppingCart,
   UserCircle,
+  Archive ,
 } from "lucide-react";
 
 export const navLinks = [
@@ -22,6 +23,11 @@ export const navLinks = [
     url: "/collections",
     icon: <FolderOpen className="w-5 h-5" />,
     label: "Bộ sưu tập",
+  },
+  {
+    url: "/categories",
+    icon: <Archive className="w-5 h-5" />,
+    label: "Danh mục",
   },
   {
     url: "/products",
@@ -45,6 +51,11 @@ export const navLinksEmp = [
     url: "/collections",
     icon: <FolderOpen className="w-5 h-5" />,
     label: "Bộ sưu tập",
+  },
+  {
+    url: "/categories",
+    icon: <Archive className="w-5 h-5" />,
+    label: "Danh mục",
   },
   {
     url: "/products",

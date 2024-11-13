@@ -13,25 +13,31 @@ export async function OPTIONS() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { cartItems, customer } = await req.json();
+    const { cartItems, customer, total } = await req.json();
 
     if (!cartItems || !customer) {
       return new NextResponse("Not enough data to checkout", { status: 400 });
     }
 
+
+    console.log("total",total);
+
+    const shippingRate = total >= 500000
+      ? "shr_1QK8ywCzWUJyaQRWlXmonISz"
+      : "shr_1QK90CCzWUJyaQRWEfJYGhVz";
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       shipping_address_collection: {
-        allowed_countries: ["US", "CA"],
+        allowed_countries: ["VN"],
       },
       shipping_options: [
-        { shipping_rate: "shr_1MfufhDgraNiyvtnDGef2uwK" },
-        { shipping_rate: "shr_1OpHFHDgraNiyvtnOY4vDjuY" },
+        { shipping_rate: shippingRate },
       ],
       line_items: cartItems.map((cartItem: any) => ({
         price_data: {
-          currency: "cad",
+          currency: "vnd",
           product_data: {
             name: cartItem.item.title,
             metadata: {
@@ -40,7 +46,7 @@ export async function POST(req: NextRequest) {
               ...(cartItem.color && { color: cartItem.color }),
             },
           },
-          unit_amount: cartItem.item.price * 100,
+          unit_amount: cartItem.item.price,
         },
         quantity: cartItem.quantity,
       })),
