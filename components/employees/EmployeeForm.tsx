@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +22,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Loader from "../custom ui/Loader";
-
 
 const formSchema = z.object({
     username: z.string().min(2).max(20),
@@ -42,41 +40,42 @@ interface EmployeeFormProps {
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
     const router = useRouter();
-
     const [loading, setLoading] = useState(false);
 
-    console.log ("initial data", initialData);
+    console.log("initial data", initialData);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData
             ? {
-                ...initialData,
-                dob: new Date(initialData.dob),
-                joinDate: new Date(initialData.joinDate),
-            }
+                  ...initialData,
+                  dob: new Date(initialData.dob),
+                  joinDate: new Date(initialData.joinDate),
+              }
             : {
-                username: "",
-                firstName: "",
-                lastName: "",
-                email: "",
-                dob: new Date(),
-                joinDate: new Date(),
-                salary: 0.1,
-            },
+                  username: "",
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  dob: new Date(),
+                  joinDate: new Date(),
+                  salary: 0.1,
+              },
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             setLoading(true);
-
-            const employeeData = {
+    
+            const employeeData = initialData ? {
                 ...values,
-            };
-
+                password: undefined,
+            } : values;
+    
             const url = initialData
                 ? `/api/employees/${initialData._id}`
                 : "/api/employees";
+            
             const res = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -84,7 +83,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                 },
                 body: JSON.stringify(employeeData),
             });
-
+    
             if (res.ok) {
                 setLoading(false);
                 toast.success(`${initialData ? "Cập nhật" : "Tạo"} nhân viên thành công`);
@@ -111,7 +110,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
             <Separator className="bg-grey-1 mt-4 mb-7" />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    
                     <FormField
                         control={form.control}
                         name="username"
@@ -119,32 +117,32 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Tên tài khoản</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        placeholder="Tên tài khoản của nhân viên"
-                                        {...field}
-                                    />
+                                    <Input placeholder="Tên tài khoản của nhân viên" {...field} />
                                 </FormControl>
                                 <FormMessage className="text-red-1" />
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Mật khẩu</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="password"
-                                        placeholder="Mật khẩu mặc định của nhân viên"
-                                    />
-                                </FormControl>
-                                <FormMessage className="text-red-1" />
-                            </FormItem>
-                        )}
-                    />
+
+                    {!initialData && (
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Mật khẩu</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="password"
+                                            placeholder="Mật khẩu mặc định của nhân viên"
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="text-red-1" />
+                                </FormItem>
+                            )}
+                        />
+                    )}
                     <FormField
                         control={form.control}
                         name="firstName"
@@ -152,10 +150,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Họ</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        placeholder="Họ nhân viên"
-                                        {...field}
-                                    />
+                                    <Input placeholder="Họ nhân viên" {...field} />
                                 </FormControl>
                                 <FormMessage className="text-red-1" />
                             </FormItem>
@@ -168,10 +163,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Tên</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        placeholder="Tên nhân viên"
-                                        {...field}
-                                    />
+                                    <Input placeholder="Tên nhân viên" {...field} />
                                 </FormControl>
                                 <FormMessage className="text-red-1" />
                             </FormItem>
@@ -185,16 +177,12 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Địa chỉ Email</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        placeholder="Địa chỉ Email nhân viên"
-                                        {...field}
-                                    />
+                                    <Input placeholder="Địa chỉ Email nhân viên" {...field} />
                                 </FormControl>
                                 <FormMessage className="text-red-1" />
                             </FormItem>
                         )}
                     />
-
 
                     <FormField
                         control={form.control}
@@ -216,7 +204,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                         )}
                     />
 
-
                     <FormField
                         control={form.control}
                         name="joinDate"
@@ -225,7 +212,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                                 <FormLabel className="text-lg font-semibold mb-2 mr-9">Ngày vào làm</FormLabel>
                                 <FormControl>
                                     <DatePicker
-                                        selected={field.value || null} // Ensure it doesn't show the current date if the field is empty
+                                        selected={field.value || null}
                                         onChange={(date) => field.onChange(date)}
                                         placeholderText="Nhập ngày vào làm"
                                         dateFormat="dd-MM-yyyy"
@@ -244,11 +231,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({ initialData }) => {
                             <FormItem>
                                 <FormLabel>Lương</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        type="number"
-                                        placeholder="Nhập lương"
-                                        {...field}
-                                    />
+                                    <Input type="number" placeholder="Nhập lương" {...field} />
                                 </FormControl>
                                 <FormMessage className="text-red-1" />
                             </FormItem>

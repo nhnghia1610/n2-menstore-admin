@@ -27,15 +27,15 @@ import Loader from "../custom ui/Loader";
 import { ComboBox } from "../custom ui/ComboBox";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(40),
-  description: z.string().min(2).max(500).trim(),
+  title: z.string().min(2, { message: "Tên sản phẩm không được để trống" }).max(40),
+  description: z.string().min(2, { message: "Mô tả sản phẩm không được để trống" }).max(500).trim(),
   media: z.array(z.string()),
   categoryId: z.string(),
   collections: z.array(z.string()),
   tags: z.array(z.string()),
   sizes: z.array(z.string()),
   colors: z.array(z.string()),
-  price: z.coerce.number().min(0.1),
+  price: z.coerce.number().min(0.1, { message: "Giá không được trống" }),
   expense: z.coerce.number().min(0.1),
 });
 
